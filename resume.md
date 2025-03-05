@@ -10,7 +10,7 @@
 
 ## Projects
 
-### **Project 1** - [Live URL](#) | [GitHub](#) *(Start - End/Present)*
+### **Project 1** - [Live URL]() | [GitHub](#) *(Start - End/Present)*
 **Technology Utilized:**
 **Synopsis:**
 
