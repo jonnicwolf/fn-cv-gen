@@ -6,7 +6,9 @@ export async function getRresume (
   jobDescription: string,
   template: string,
   resumeData: ResumeData,
-): Promise<ChatCompletion | undefined> {
+): Promise<ChatCompletion | undefined | null> {
+  if (resumeData.skills.length === 0) return null;
+
   try {
     const openai = new OpenAI({
       // @ts-ignore
@@ -22,7 +24,7 @@ export async function getRresume (
       try {
         const chatCompletion: ChatCompletion = await openai.chat.completions.create({
           model: "gpt-3.5-turbo",
-          messages: [{ role: 'user', content: `Create a resume using ${jobDescription} ${template} ${resumeData} in raw markdown` }],
+          messages: [{ role: 'user', content: `Create a resume using ${jobDescription} ${template} ${resumeData}. Output in raw markdown` }],
         });
         return chatCompletion;
       }
