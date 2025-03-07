@@ -1,16 +1,7 @@
 {
-  "skills": {
-    "languages": ["JavaScript", "TypeScript", "Python", "Swift", "Go"],
-    "frontend": ["React", "Next.js", "Redux", "Uppy", "Tanstack Query", "HTML5", "CSS3", "Tailwind CSS", "Material UI", "Styled Components", "p5.js", "Bootstrap", "React Three Fiber", "Three.js"],
-    "backend": ["Node.js", "SQL"],
-    "backend frameworks": ["Express", "Joi", "RESTful APIs"],
-    "databases": ["PostgreSQL", "MongoDB"],
-    "testing": ["Jest", "Mocha", "Chai", "DataDog", "Sentry", ""],
-    "tools": ["Git", "GitHub", "GitLab", "npm", "Webpack", "Babel", "BeautifulSoup", "Selenium", "Atlassian", "psql", "Makefile", "YAML", "JSON"],
-    "cloud & infrastructure": ["AWS", "AWS Lambda", "AWS S3", "AWS CloudFormation & SAM", "AWS RDS", "Terraform", "Docker"],
-    "security": ["AWS IAM", "OAuth", "JWT"],
-    "methodologies": ["Agile", "Scrum", "TDD"]
-  },
+  "skills": [
+    "JavaScript", "TypeScript", "Python", "Swift", "Go", "React", "Next.js", "Redux", "Uppy", "Tanstack Query", "HTML5", "CSS3", "Tailwind CSS", "Material UI", "Styled Components", "p5.js", "Bootstrap", "React Three Fiber", "Three.js", "Node.js", "SQL", "Express", "Joi", "RESTful APIs","PostgreSQL", "MongoDB", "Jest", "Mocha", "Chai", "DataDog", "Sentry", "Git", "GitHub", "GitLab", "npm", "Webpack", "Babel", "BeautifulSoup", "Selenium", "Atlassian", "psql", "Makefile", "YAML", "JSON", "AWS", "AWS Lambda", "AWS S3", "AWS CloudFormation & SAM", "AWS RDS", "Terraform", "Docker", "AWS IAM", "OAuth", "JWT", "Agile", "Scrum", "TDD"
+  ],
   "projects": [
     {
       "name": "Podcast Gen",
