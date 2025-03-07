@@ -1,7 +1,7 @@
 import { OpenAI } from 'openai';
 import { ChatCompletion, } from 'openai/resources/index.mjs';
 
-export async function getRresume (
+export async function getResume (
   jobDescription: string,
   cards: string[]
 ): Promise<ChatCompletion | undefined> {

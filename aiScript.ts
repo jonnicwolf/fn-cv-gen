@@ -2,7 +2,7 @@ import { OpenAI } from 'openai';
 import { ChatCompletion, } from 'openai/resources/index.mjs';
 import { ResumeData } from './aiScripts/types';
 
-export async function getRresume (
+export async function getResume (
   jobDescription: string,
   template: string,
   resumeData: ResumeData,
