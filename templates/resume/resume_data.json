@@ -1,0 +1,54 @@
+{
+  "skills": {
+    "languages": ["JavaScript", "TypeScript", "Python", "Swift", "Go"],
+    "frontend": ["React", "Next.js", "Redux", "Uppy", "Tanstack Query", "HTML5", "CSS3", "Tailwind CSS", "Material UI", "Styled Components", "p5.js", "Bootstrap", "React Three Fiber", "Three.js"],
+    "backend": ["Node.js", "SQL"],
+    "backend frameworks": ["Express", "Joi", "RESTful APIs"],
+    "databases": ["PostgreSQL", "MongoDB"],
+    "testing": ["Jest", "Mocha", "Chai", "DataDog", "Sentry", ""],
+    "tools": ["Git", "GitHub", "GitLab", "npm", "Webpack", "Babel", "BeautifulSoup", "Selenium", "Atlassian", "psql", "Makefile", "YAML", "JSON"],
+    "cloud & infrastructure": ["AWS", "AWS Lambda", "AWS S3", "AWS CloudFormation & SAM", "AWS RDS", "Terraform", "Docker"],
+    "security": ["AWS IAM", "OAuth", "JWT"],
+    "methodologies": ["Agile", "Scrum", "TDD"]
+  },
+  "projects": [
+    {
+      "name": "Podcast Gen",
+      "tech": ["React", "TypeScript", "Next.js", "Uppy", "AWS", "AWS Lambda", "AWS S3", "AWS Cloudformation", "AWS CloudFormation & SAM", "Makefile", "Docker"],
+      "description": "Text-to-speech and audio-to-text transcriber monorepo. Powered by AWS, Gemini AI, and React. Currently optimizing features for public release."
+    },
+    {
+      "name": "Stoned Cold Dreamery",
+      "tech": ["React", "Firebase", "Styled Components"],
+      "description": "Frontend concept for an ice-cream webstore, showcasing product listings, interactive features, and user authentication via Firebase."
+    },
+    {
+      "name": "Soirée",
+      "tech": ["React", "Firebase", "Styled Components"],
+      "description": "Text-to-speech and audio-to-text transcriber monorepo. Powered by AWS, Gemini AI, and React. Currently optimizing features for public release."
+    },
+    {
+      "name": "Esperi",
+      "tech": ["React", "TypeScript", "Firebase", "OpenAI", "p5.js"],
+      "description": "A tarot card app that deals three random cards and provides personalized readings using OpenAI. Integrates React, OpenAI, and p5.js for interactive readings."
+    }
+  ],
+  "experience": [
+    {
+      "role": "Apprentice Software Engineer",
+      "company": "SeatGeek",
+      "dates": {
+        "start": "Aug 2022",
+        "end": "Feb 2023"
+      },
+      "responsibilities": [
+        "Participated in on-call rotation for real-time system reliability.",
+        "Implemented monitors using Terraform, Sentry, and Datadog to track file upload errors, reducing resolution time by 20%.",
+        "Designed and developed the Search & Match modal feature, increasing event association accuracy by 98%.",
+        "Provided critical SRE support during high-demand events onsale events such as Taylor Swift's Eras tour.",
+        "Lead project demo meetings to stakeholders."
+      ],
+      "tech": ["TypeScript", "React", "Python", "Styled Components", "Docker", "Terraform", "Go", "DataDog", "Sentry", "Jenkins"]
+    }
+  ]
+}
