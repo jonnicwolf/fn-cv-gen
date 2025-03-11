@@ -5,9 +5,9 @@ import { ResumeData } from './types';
 export async function getResume (
   jobDescription: string,
   template: string,
-  resumeData: ResumeData,
+  resumeData: ResumeData | null,
 ): Promise<ChatCompletion | undefined | null> {
-  if (resumeData.skills.length === 0) return null;
+  if (resumeData === null || resumeData.skills.length === 0) return null;
 
   try {
     const openai = new OpenAI({
