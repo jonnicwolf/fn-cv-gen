@@ -6,8 +6,7 @@ import { Project, ResumeData } from "../aiScripts/types.ts";
 import { filterSkills } from '../aiScripts/utils/preprocessResumeData';
 import { getResume } from '../aiScripts/aiScript.ts';
 
-import resumeTemplate from '../templates/resume/resume.md';
-const resumeData = require('../templates/resume/resume_data.json')
+import resumeTemplate from '../templates/resume/resume.md?raw';
 
 const JobForm = () => {
   const [jobDescription, setDescription] = useState<string>("");
@@ -39,13 +38,11 @@ const JobForm = () => {
     setSkills(prev => [...prev, skill])
   };
 
-  console.log(resumeData)
-  console.log(filteredSkills)
-
-  const handleSubmit = (jobDescription: string, techSkills: string[], resumeData: ResumeData | null) => {
+  const handleSubmit = async (jobDescription: string, techSkills: string[], resumeData: ResumeData | []) => {
     const data = filterSkills(jobDescription, techSkills);
-    setFilteredSkills(data)
-    getResume(jobDescription, resumeTemplate, resumeData)
+    await setFilteredSkills(data)
+    if ( resumeData ) setResumeData(prev => [...prev, resumeData] || null)
+    await getResume(jobDescription, resumeTemplate, resumeData)
   };
 
   const skills = [
@@ -86,7 +83,7 @@ const JobForm = () => {
       </Stack>
       <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ rowGap: 1, justifyContent: 'center' }}>
         {skills.map((skill, index) => (
-          <Button key={index} variant="contained" onClick={() => handleSkills(skill)}>
+          <Button key={index} variant="contained" onClick={(e) => handleSkills(e.target.value)}>
             {skill}
           </Button>
         ))}
@@ -144,7 +141,7 @@ const JobForm = () => {
         variant="contained"
         fullWidth
         sx={{ mt: 2 }}
-        onClick={handleSubmit(jobDescription, techSkills, resumeData)}
+        onClick={() =>handleSubmit(jobDescription, techSkills, resumeData)}
       >
         Submit
       </Button>
