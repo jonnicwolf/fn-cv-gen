@@ -6,26 +6,27 @@ export async function getResume (
   jobDescription: string,
   template: string,
   resumeData: ResumeData | null,
-): Promise<ChatCompletion | undefined | null> {
-  if (resumeData === null || resumeData.skills.length === 0) return null;
-
+): Promise<ChatCompletion | undefined> {
+  console.log(jobDescription,template,resumeData)
   try {
     const openai = new OpenAI({
       // @ts-ignore
-      apiKey: import.meta.env.VITE_OPENAI_API as string,
+      apiKey: import.meta.env.VITE_OPENAI_API_KEY as string,
       dangerouslyAllowBrowser: true
     });
 
     let attempts: number = 0;
     const maxAttempts: number = 2;
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+    let chatCompletion: ChatCompletion
 
     while (attempts < maxAttempts) {
       try {
-        const chatCompletion: ChatCompletion = await openai.chat.completions.create({
+        chatCompletion = await openai.chat.completions.create({
           model: "gpt-3.5-turbo",
           messages: [{ role: 'user', content: `Create a resume using ${jobDescription} ${template} ${resumeData}. Output in raw markdown` }],
         });
+        console.log(chatCompletion)
         return chatCompletion;
       }
       catch (error: any) {
@@ -43,7 +44,7 @@ export async function getResume (
         };
       };
     };
-
+    
     if (attempts === maxAttempts) console.error('Max retry attempts reached. Exiting...');
   }
   catch (error) { console.error('Unexpected error:', error); }
