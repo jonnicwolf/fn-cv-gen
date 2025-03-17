@@ -1,51 +1,56 @@
 import { OpenAI } from 'openai';
-import { ChatCompletion, } from 'openai/resources/index.mjs';
 import { ResumeData } from './types';
 
 export async function getResume (
   jobDescription: string,
   template: string,
   resumeData: ResumeData | null,
-): Promise<ChatCompletion | undefined> {
-  console.log(jobDescription,template,resumeData)
+): Promise<ReturnType<OpenAI['chat']['completions']['create']> | undefined> {
+  console.log(jobDescription, template, resumeData);
+
   try {
     const openai = new OpenAI({
-      // @ts-ignore
       apiKey: import.meta.env.VITE_OPENAI_API_KEY as string,
       dangerouslyAllowBrowser: true
     });
 
-    let attempts: number = 0;
-    const maxAttempts: number = 2;
-    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-    let chatCompletion: ChatCompletion
+    let attempts = 0;
+    const maxAttempts = 5;
+    const baseDelay = 1000;
 
     while (attempts < maxAttempts) {
       try {
-        chatCompletion = await openai.chat.completions.create({
+        const chatCompletion = await openai.chat.completions.create({
           model: "gpt-3.5-turbo",
-          messages: [{ role: 'user', content: `Create a resume using ${jobDescription} ${template} ${resumeData}. Output in raw markdown` }],
+          messages: [
+            { role: 'system', content: 'You are a helpful assistant.' },
+            { role: 'user', content: `Create a resume using ${jobDescription} ${template} ${resumeData}. Output in raw markdown` }
+          ],
         });
-        console.log(chatCompletion)
-        return chatCompletion;
-      }
-      catch (error: any) {
-        if (error instanceof OpenAI.APIError && error.status === 429) {
-          // @ts-ignore
-          const retryAfter: any = error.response?.headers?.get('Retry-After');
-          const waitTime: number = retryAfter ? parseInt(retryAfter, 10) * 1000 : Math.pow(2, attempts) * 1000;
 
-          console.error(`Rate-limited. Retrying after ${waitTime / 1000} seconds...`);
-          await delay(waitTime);
+        console.log(chatCompletion);
+        return chatCompletion;
+      } 
+      catch (error: any) {
+        if (error.status === 429) {
+          const retryAfterHeader = error.response?.headers?.['retry-after'];
+          const waitTime = retryAfterHeader 
+            ? parseInt(retryAfterHeader, 10) * 1000
+            : baseDelay * Math.pow(2, attempts) + Math.random() * 1000; // Exponential backoff with jitter
+
+          console.error(`Rate-limited. Retrying in ${waitTime / 1000} seconds...`);
+          await new Promise(resolve => setTimeout(resolve, waitTime));
           attempts++;
-        }
+        } 
         else {
           throw error;
-        };
-      };
-    };
-    
-    if (attempts === maxAttempts) console.error('Max retry attempts reached. Exiting...');
+        }
+      }
+    }
+
+    console.error('Max retry attempts reached. Exiting...');
+  } 
+  catch (error) { 
+    console.error('Unexpected error:', error);
   }
-  catch (error) { console.error('Unexpected error:', error); }
-};
+}
