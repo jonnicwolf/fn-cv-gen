@@ -1,9 +1,9 @@
 import { useState, useEffect, SetStateAction } from 'react'
-import { Project, Experience, ResumeData } from "../aiScripts/types.ts";
+import { Project, Experience, ResumeData } from "./aiScripts/types.ts";
 import styled from 'styled-components';
 
-import { filterSkills } from '../aiScripts/utils/preprocessResumeData';
-import { getResume } from '../aiScripts/aiScript.ts';
+import { filterSkills } from './aiScripts/utils/preprocessResumeData.ts';
+import { getResume } from './aiScripts/aiScript.ts';
 
 import resumeTemplate from '../templates/resume/resume.md?raw';
 
