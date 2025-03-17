@@ -1,13 +1,20 @@
-import { useState } from 'react';
+import styled from "styled-components";
 
-function App() {
-  const [count, setCount] = useState(0);
+import JobForm from './JobForm.tsx';
+
+const App = () => {
+  
 
   return (
-    <>
-      
-    </>
-  )
-}
+    <Container>
+      <JobForm />
+    </Container>
+  );
+};
 
-export default App
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export default App;
