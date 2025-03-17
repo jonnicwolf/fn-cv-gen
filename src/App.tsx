@@ -3,8 +3,6 @@ import styled from "styled-components";
 import JobForm from './JobForm.tsx';
 
 const App = () => {
-  
-
   return (
     <Container>
       <JobForm />

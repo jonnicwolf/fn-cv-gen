@@ -7,8 +7,8 @@ import resumeTemplate from '../templates/resume/resume.md?raw';
 
 const JobForm = () => {
   const [jobDescription, setJobDescription] = useState('');
-  const [generalSkills,setGeneralSkills] = useState<string[]>([])
-  const [generalSkill,setGeneralSkill] = useState<string>('')
+  const [generalSkills,setGeneralSkills] = useState<string[]>([]);
+  const [generalSkill,setGeneralSkill] = useState<string>('');
 
   const [projectList, setProjectList] = useState<Project[]>([]);
   const [project, setProject] = useState<Project>({name: '', tech: [''], description: ''});
@@ -24,14 +24,14 @@ const JobForm = () => {
   });
   const [experienceList, setExperienceList] = useState<Experience[]>([]);
 
-  const handleJobDescription = (e: { target: { value: SetStateAction<string>; }; }) => {
+  const handleJobDescription = (e: { target: { value: SetStateAction<string>; }}) => {
     setJobDescription(e.target.value);
-  }
+  };
   const handleGeneralSkill = (e: { target: { value: SetStateAction<string>}}) => {
     setGeneralSkill(e.target.value);
-  }
+  };
   const handleGeneralSkills = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Prevents form submission
+    e.preventDefault();
     if (generalSkill) setGeneralSkills(prev => [...prev, generalSkill]);
     setGeneralSkill('');
   };
@@ -42,17 +42,16 @@ const JobForm = () => {
       [name]: name === 'tech' ? value.split(',').map(tech => tech.trim()) : value,
     }));
   };
-
   const handleProjectList = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     const {name, tech, description} = project;
     const [nameLength, techLength, descriptionLength] = [name.length, tech.length, description.length];
     if (nameLength && techLength && descriptionLength) setProjectList(prev => [...prev, project]);
     setProject({name: '', tech: [], description: ''});
-  }
+  };
   const handleExperience = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-  
+
     setExperience(prev => {
       if (['start', 'end'].includes(name)) {
         return {
@@ -71,34 +70,20 @@ const JobForm = () => {
         return {
           ...prev, 
           [name]: value.split(',').map(item => item.trim()),
-        }
-      } 
+        };
+      }
       else {
-        // Update other fields
         return {
           ...prev,
           [name]: value,
         };
       }
-  });
+    });
   };
   const handleExperienceList = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     setExperienceList(prev => [...prev, experience])
-  }
-
-  // console.log(
-  //   {
-  //     jobDescription: jobDescription,
-  //     template: resumeTemplate,
-  //     resumeData: {
-  //       skills: generalSkills,
-  //       projects: projectList,
-  //       experience: experienceList
-  //     }
-  //   }
-  // )
-
+  };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await axios.post('/.netlify/functions/server/openai', {
@@ -112,7 +97,7 @@ const JobForm = () => {
     });
 
   console.log(response);
-  }
+  };
 
   return (
     <Container onSubmit={handleSubmit}>
@@ -219,40 +204,39 @@ const JobForm = () => {
 };
 
 const Container = styled.form`
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-`
+`;
 const Section = styled.div`
   padding: 5%;
   display: flex;
   flex-direction: column;
   width: 100%;
   align-items: center;
-`
+`;
 const JobDescription = styled.div`
   padding: 5%;
   display: flex;
   flex-direction: column;
   width: 100%;
   align-items: center;
-`
+`;
 const GeneralSkills = styled(Section)`
   gap: 0.5rem;
-`
+`;
 const ProjectItem = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`
+`;
 const Display = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1vh;
-`
+`;
 const DisplayItem = styled.div`
   display: flex;
   flex-direction: column;
@@ -260,18 +244,18 @@ const DisplayItem = styled.div`
   border: 1px solid black;
   border-radius: 5px;
   padding: 1%;
-`
+`;
 const Input = styled.input`
   height: 2rem;
   border-radius: 5px;
   text-overflow: wrap;
-`
+`;
 const InputLg = styled.textarea`
   height: 20vh;
   border-radius: 5px;
   width: 100%;
-`
+`;
 const Button = styled.button`
   width: 20%;
-`
+`;
 export default JobForm;
