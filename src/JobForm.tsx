@@ -1,6 +1,7 @@
 import { useState, useEffect, SetStateAction } from 'react'
 import { Project, Experience, ResumeData } from "./aiScripts/types.ts";
 import styled from 'styled-components';
+import axios from 'axios';
 
 import { filterSkills } from './aiScripts/utils/preprocessResumeData.ts';
 import { getResume } from './aiScripts/aiScript.ts';
@@ -103,17 +104,19 @@ const JobForm = () => {
   //   }
   // )
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = getResume(
+    const response = await axios.post('/.netlify/functions/server/openai', {
       jobDescription,
       resumeTemplate,
-      {
+      resumeData: {
         skills: generalSkills,
         projects: projectList,
         experience: experienceList
-      })
-    console.log(response)
+      }
+    });
+
+  console.log(response);
   }
 
   return (
