@@ -36,7 +36,7 @@ export async function getResume (
           const retryAfterHeader = error.response?.headers?.['retry-after'];
           const waitTime = retryAfterHeader 
             ? parseInt(retryAfterHeader, 10) * 1000
-            : baseDelay * Math.pow(2, attempts) + Math.random() * 1000; // Exponential backoff with jitter
+            : baseDelay * Math.pow(2, attempts) + Math.random() * 1000;
 
           console.error(`Rate-limited. Retrying in ${waitTime / 1000} seconds...`);
           await new Promise(resolve => setTimeout(resolve, waitTime));
