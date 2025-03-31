@@ -1,9 +1,25 @@
 import { useState, SetStateAction, } from 'react'
-import { Project, Experience, } from "./aiScripts/types.ts";
+// import { Project, Experience, } from "../functions/aiScripts/aiScripts/types.ts";
+import { Project, Experience, } from "../functions/aiScripts/types/types";
 import styled from 'styled-components';
 import axios from 'axios';
 
 import resumeTemplate from '../templates/resume/resume.md?raw';
+import resumeData from '../templates/resume/resume_data.json';
+// import { getResume } from '../functions/aiScripts/aiScript';
+const jobDesc = `I’m working with one of the most impressive & exciting startups in New York who're tackling a major challenge in API development. They’ve recently raised a $12M Series A, have a 5-year runway, and are planning to double their team size this year. They have a world-class team that consists of ex-Palantir, Microsoft, Uber, AWS, Ramp, founders and founding engineers.
+
+
+
+The company is building an open-source platform that enables businesses to offer “Stripe-level” SDKs and Docs for their REST APIs—solving pain points around untyped, unstandardized, and out-of-sync APIs. Their approach is inspired by internal tooling from AWS and Palantir, and they’re already working with the most reputable and well-known technology companies in the industry.
+
+
+
+What we're looking for:
+
+
+
+Proven experience working in a startup environment with a demonstrable background working with React, TypeScript, JavaScript and building/managing frontend infrastructure.'`
 
 const JobForm = () => {
   const [jobDescription, setJobDescription] = useState('');
@@ -37,6 +53,7 @@ const JobForm = () => {
   };
   const handleProject = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    //@ts-ignore
     setProject(prevProject => ({
       ...prevProject,
       [name]: name === 'tech' ? value.split(',').map(tech => tech.trim()) : value,
@@ -51,7 +68,7 @@ const JobForm = () => {
   };
   const handleExperience = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-
+    //@ts-ignore
     setExperience(prev => {
       if (['start', 'end'].includes(name)) {
         return {
@@ -86,17 +103,34 @@ const JobForm = () => {
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await axios.post('/.netlify/functions/server/openai', {
-      jobDescription,
-      resumeTemplate,
-      resumeData: {
-        skills: generalSkills,
-        projects: projectList,
-        experience: experienceList
-      }
-    });
 
-  console.log(response);
+    console.log(
+      {
+        jobDesc,
+        resumeTemplate,
+        resumeData: {
+          skills: resumeData.skills,
+          projects: resumeData.projects,
+          experience: resumeData.experience,
+        }})
+
+    const response = await axios.post('http://localhost:3000/openai', {
+      params : {
+        jobDesc,
+        resumeTemplate,
+        resumeData: {
+          skills: resumeData.skills,
+          projects: resumeData.projects,
+          experience: resumeData.experience
+        }
+      }
+    })
+    .then(function (response) {
+      console.log(response)
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
   };
 
   return (
@@ -146,6 +180,7 @@ const JobForm = () => {
             return (
               <DisplayItem key={id}>
                 <h4>{project.name}</h4>
+                {/* @ts-ignore */}
                 {project.tech.length && project.tech.map((tech, id) => {
                   return (
                     <span key={id}>{tech}</span>
@@ -186,6 +221,7 @@ const JobForm = () => {
                 <p>{exp.dates.start}</p>
                 <p>{exp.dates.end}</p>
                 <p>
+                {/* @ts-ignore */}
                   {exp.responsibilities.map( (point, i) => {
                     return (
                       <span key={i}>{point}</span>

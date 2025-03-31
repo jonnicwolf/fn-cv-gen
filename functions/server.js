@@ -1,11 +1,19 @@
 // server.js
 const express = require('express');
+const cors = require('cors');
 const serverless = require('serverless-http');
+const { getResume } = require('./aiScripts/aiScript.ts');
+
 
 const app = express();
 const PORT = 3000;
 
+app.use(cors());
 app.use(express.json());
+
+app.get('/', async (req, res) => {
+    res.json({message: 'yo'})
+})
 
 app.post('/openai', async (req, res) => {
     const { jobDescription, template, resumeData } = req.body;
@@ -17,6 +25,9 @@ app.post('/openai', async (req, res) => {
         console.error('Error generating resume:', error)
         res.status(500).json({ error: error.message });
     }
+});
+app.use((req, res) => {
+    res.status(404).json({ error: 'Route not found' });
 });
 
 app.listen(PORT, () => {
