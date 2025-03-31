@@ -1,4 +1,4 @@
-import { Project, ResumeData } from "../types";
+import { Project, ResumeData } from "../types/types";
 
 export function extractKeywords (jobDescription: string): string[] {
   return jobDescription

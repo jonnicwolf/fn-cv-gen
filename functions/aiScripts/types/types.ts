@@ -20,9 +20,3 @@ export interface ResumeData {
   projects: Project[];
   experience: Experience[];
 }
-
-export interface ResumeData {
-  skills: string[];
-  projects: Project[];
-  experience: Experience[];
-}
