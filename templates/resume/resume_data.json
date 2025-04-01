@@ -9,6 +9,11 @@
       "description": "Text-to-speech and audio-to-text transcriber monorepo. Powered by AWS, Gemini AI, and React. Currently optimizing features for public release."
     },
     {
+      "name": "Tip Tally Pro",
+      "tech": ["React", "Styled Components"],
+      "description": "Designed to streamline the management of tips and cash distribution for hospitality closing staff. This application provides a user-friendly interface for calculating and distrubting tips among employees, as well as managing cash registers. Built using React, React Router, and styled-components, the application ensures a seamless and responsive user experience."
+    },
+    {
       "name": "Stoned Cold Dreamery",
       "tech": ["React", "Firebase", "Styled Components"],
       "description": "Frontend concept for an ice-cream webstore, showcasing product listings, interactive features, and user authentication via Firebase."
@@ -16,7 +21,7 @@
     {
       "name": "Soirée",
       "tech": ["React", "Firebase", "Styled Components"],
-      "description": "Text-to-speech and audio-to-text transcriber monorepo. Powered by AWS, Gemini AI, and React. Currently optimizing features for public release."
+      "description": "A dynamic large part event booking platform with customizable venue management and bar rental packages."
     },
     {
       "name": "Esperi",
