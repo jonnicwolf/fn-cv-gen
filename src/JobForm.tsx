@@ -7,9 +7,6 @@ import { Project, Experience, } from "../functions/aiScripts/types/types";
 import styled from 'styled-components';
 
 import resumeTemplate from '../templates/resume/resume.md?raw';
-import resumeData from '../templates/resume/resume_data.json';
-// import { getResume } from '../functions/aiScripts/aiScript';
-const jobDesc = `I’m working with one of the most impressive & exciting startups in New York who're tackling a major challenge in API development. They’ve recently raised a $12M Series A, have a 5-year runway, and are planning to double their team size this year. They have a world-class team that consists of ex-Palantir, Microsoft, Uber, AWS, Ramp, founders and founding engineers. The company is building an open-source platform that enables businesses to offer “Stripe-level” SDKs and Docs for their REST APIs—solving pain points around untyped, unstandardized, and out-of-sync APIs. Their approach is inspired by internal tooling from AWS and Palantir, and they’re already working with the most reputable and well-known technology companies in the industry. What we're looking for: Proven experience working in a startup environment with a demonstrable background working with React, TypeScript, JavaScript and building/managing frontend infrastructure.`
 
 export default function JobForm () {
   const [geminiResponse, setGeminiResponse] = useState<string>('')
@@ -97,7 +94,7 @@ export default function JobForm () {
 
     try {
       const response = await getResumeGemini(
-        jobDesc,
+        jobDescription,
         resumeTemplate,
         {
           skills: generalSkills || [],
@@ -228,13 +225,6 @@ export default function JobForm () {
     )
 };
 
-
-const Test = styled.div`
-  height: 50vh;
-  width: 50vw;
-  border: 1px solid red;
-  background-color: red;
-`
 const Container = styled.form`
   display: flex;
   flex-direction: column;
