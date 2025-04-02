@@ -28,6 +28,6 @@
   "include": [
     "src",
     "functions/server.js",
-    "functions/aiScripts/**/*"
+    "src/aiScripts/**/*"
   ]
 }

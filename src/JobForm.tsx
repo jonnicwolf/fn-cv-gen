@@ -2,8 +2,8 @@ import { useState, SetStateAction, } from 'react';
 import Resume from './Resume';
 
 // @ts-ignore
-import { getResumeGemini } from '../aiScripts/geminiResumeScript'
-import { Project, Experience, } from "../functions/aiScripts/types/types";
+import { getResumeGemini } from '../functions/aiScripts/geminiResumeScript'
+import { Project, Experience, } from "./aiScripts/types/types";
 import styled from 'styled-components';
 
 import resumeTemplate from '../templates/resume/resume.md?raw';
