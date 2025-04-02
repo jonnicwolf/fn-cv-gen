@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/jobform.tsx","./src/resume.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/aiscripts/aiscript.ts","./src/aiscripts/geminiresumescript.ts","./src/aiscripts/types/types.ts","./src/aiscripts/utils/preprocessresumedata.ts"],"version":"5.7.3"}
