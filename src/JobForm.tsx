@@ -46,12 +46,15 @@ export default function JobForm () {
       ...prevProject,
       [name]: name === 'tech' ? value.split(',').map(tech => tech.trim()) : value,
     }));
+    // setProject({name: '', tech: [''], description: ''});
   };
   const handleProjectList = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const {name, tech, description} = project;
     const [nameLength, techLength, descriptionLength] = [name.length, tech.length, description.length];
-    if (nameLength && techLength && descriptionLength) setProjectList(prev => [...prev, project]);
+    if (nameLength && techLength && descriptionLength){
+      setProjectList(prev => [...prev, project]);
+    }
     setProject({name: '', tech: [], description: ''});
   };
   const handleExperience = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -73,7 +76,7 @@ export default function JobForm () {
         };
       } else if (['tech'].includes(name)) {
         return {
-          ...prev, 
+          ...prev,
           [name]: value.split(',').map(item => item.trim()),
         };
       }
@@ -116,7 +119,7 @@ export default function JobForm () {
   }
 
   return (
-    <div>
+    <>
     {!geminiResponse ?
       <Container onSubmit={handleSubmit}>
         <JobDescription>
@@ -128,9 +131,10 @@ export default function JobForm () {
         <GeneralSkills>
           <label htmlFor="generalSkills">General Skills</label>
           <Input type="text" name='generalSkills' value={generalSkill} onChange={handleGeneralSkill} />
-          <Button onClick={handleGeneralSkills}>add skill</Button>
+          <Button onClick={handleGeneralSkills}>Add Skill</Button>
 
-          <Display style={{ flexDirection: 'row'}}>
+          {/* <Display style={{ flexDirection: 'row', flexWrap: 'wrap'}}> */}
+          <Display direction='row' >
             {generalSkills.map((val, id) => {
               return (
                 <DisplayItem key={id}>
@@ -139,7 +143,6 @@ export default function JobForm () {
               )
             })}
           </Display>
-
         </GeneralSkills>
 
         <Section>
@@ -221,7 +224,7 @@ export default function JobForm () {
         <Button type="submit">Get Resume</Button>
       </Container>
       : <Resume markdownString={geminiResponse}/>}
-    </div>
+    </>
     )
 };
 
@@ -229,7 +232,7 @@ const Container = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 90vw;
 `
 const Section = styled.div`
   padding: 5%;
@@ -254,9 +257,14 @@ const ProjectItem = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `
-const Display = styled.div`
+interface DisplayProps {
+  direction?: "row" | "column";
+  wrap?: "wrap" | "nowrap";
+}
+const Display = styled.div<DisplayProps>`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({ direction}) => direction || 'column'};
+  flex-wrap: wrap;
   gap: 1vh;
 `
 const DisplayItem = styled.div`
@@ -278,5 +286,5 @@ const InputLg = styled.textarea`
   width: 100%;
 `
 const Button = styled.button`
-  width: 20%;
+  width: fit-content;
 `
