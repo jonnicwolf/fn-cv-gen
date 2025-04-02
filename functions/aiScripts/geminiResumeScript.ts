@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
-import { ResumeData } from '../functions/aiScripts/aiScript';
+import { ResumeData } from '../src/aiScripts/aiScript';
 
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY as string || 'default'
 const ai = new GoogleGenAI({ apiKey });

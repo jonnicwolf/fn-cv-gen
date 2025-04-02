@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const serverless = require('serverless-http');
-const { getResume } = require('./aiScripts/aiScript.ts');
+const { getResume } = require('../src/aiScripts/aiScript.js');
 
 
 const app = express();
