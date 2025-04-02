@@ -133,7 +133,6 @@ export default function JobForm () {
           <Input type="text" name='generalSkills' value={generalSkill} onChange={handleGeneralSkill} />
           <Button onClick={handleGeneralSkills}>Add Skill</Button>
 
-          {/* <Display style={{ flexDirection: 'row', flexWrap: 'wrap'}}> */}
           <Display direction='row' >
             {generalSkills.map((val, id) => {
               return (
@@ -187,11 +186,17 @@ export default function JobForm () {
 
           <label htmlFor='company'>Role</label>
           <Input type="text" name='role' value={experience.role} onChange={handleExperience}/>
+          <div style={{display: 'flex', flexDirection: 'row', gap: '1vw'}}>
+            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              <label htmlFor='start'>Start Date</label>
+              <Input type="text" name='start' value={experience.dates.start} onChange={handleExperience}/>
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}> 
+              <label htmlFor='end'>End Date</label>
+              <Input type="text" name='end' value={experience.dates.end} onChange={handleExperience}/>
+            </div>
 
-          <label htmlFor='start'>Start Date</label>
-          <Input type="text" name='start' value={experience.dates.start} onChange={handleExperience}/>
-          <label htmlFor='end'>End Date</label>
-          <Input type="text" name='end' value={experience.dates.end} onChange={handleExperience}/>
+          </div>
           <label htmlFor='responsibilities'>Breakdown of responsibilities</label>
           <InputLg name='responsibilities' value={experience.responsibilities} onChange={handleExperience}/>
           <label htmlFor='tech'>Tech used</label>
@@ -240,6 +245,7 @@ const Section = styled.div`
   flex-direction: column;
   width: 100%;
   align-items: center;
+  gap: 1vw;
 `
 const JobDescription = styled.div`
   padding: 5%;
