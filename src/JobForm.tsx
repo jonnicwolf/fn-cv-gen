@@ -2,7 +2,7 @@ import { useState, SetStateAction, } from 'react';
 import Resume from './Resume';
 
 // @ts-ignore
-import { getResumeGemini } from '../functions/aiScripts/geminiResumeScript'
+import { getResumeGemini } from './aiScripts/geminiResumeScript'
 import { Project, Experience, } from "./aiScripts/types/types";
 import styled from 'styled-components';
 
@@ -46,7 +46,6 @@ export default function JobForm () {
       ...prevProject,
       [name]: name === 'tech' ? value.split(',').map(tech => tech.trim()) : value,
     }));
-    // setProject({name: '', tech: [''], description: ''});
   };
   const handleProjectList = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -89,8 +88,8 @@ export default function JobForm () {
     });
   };
   const handleExperienceList = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    setExperienceList(prev => [...prev, experience])
+    e.preventDefault();
+    setExperienceList(prev => [...prev, experience]);
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -115,8 +114,8 @@ export default function JobForm () {
     } catch (error) {
       console.error("Error fetching resume:", error);
       setGeminiResponse('Error: Failed to generate resume.');
-    }
-  }
+    };
+  };
 
   return (
     <>
