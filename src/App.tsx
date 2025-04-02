@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
-import JobForm from './JobForm.tsx';
+import JobForm from './JobForm';
 
 const App = () => {
   return (
     <Container>
+      {/* @ts-ignore */}
       <JobForm />
     </Container>
   );

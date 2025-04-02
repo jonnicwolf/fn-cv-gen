@@ -18,5 +18,8 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["functions/**/*"]
+  "include": [
+    "functions/**/*",
+    "src/**/*",
+  ]
 }
