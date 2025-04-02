@@ -1,4 +1,6 @@
 import { useState, SetStateAction, } from 'react';
+import Resume from './Resume';
+
 // @ts-ignore
 import { getResumeGemini } from '../aiScripts/geminiResumeScript'
 import { Project, Experience, } from "../functions/aiScripts/types/types";
@@ -10,6 +12,7 @@ import resumeData from '../templates/resume/resume_data.json';
 const jobDesc = `I’m working with one of the most impressive & exciting startups in New York who're tackling a major challenge in API development. They’ve recently raised a $12M Series A, have a 5-year runway, and are planning to double their team size this year. They have a world-class team that consists of ex-Palantir, Microsoft, Uber, AWS, Ramp, founders and founding engineers. The company is building an open-source platform that enables businesses to offer “Stripe-level” SDKs and Docs for their REST APIs—solving pain points around untyped, unstandardized, and out-of-sync APIs. Their approach is inspired by internal tooling from AWS and Palantir, and they’re already working with the most reputable and well-known technology companies in the industry. What we're looking for: Proven experience working in a startup environment with a demonstrable background working with React, TypeScript, JavaScript and building/managing frontend infrastructure.`
 
 export default function JobForm () {
+  const [geminiResponse, setGeminiResponse] = useState<string>('')
   const [jobDescription, setJobDescription] = useState('');
   const [generalSkills,setGeneralSkills] = useState<string[]>([]);
   const [generalSkill,setGeneralSkill] = useState<string>('');
@@ -92,120 +95,136 @@ export default function JobForm () {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const response = await getResumeGemini(
-      jobDesc,
-      resumeTemplate,
-      {
-        skills: resumeData?.skills,
-        projects: resumeData?.projects,
-        experience: resumeData?.experience,
-      });
+    try {
+      const response = await getResumeGemini(
+        jobDesc,
+        resumeTemplate,
+        {
+          skills: generalSkills || [],
+          projects: projectList || [],
+          experience: experienceList || [],
+        }
+      );
+
+      if (typeof response === 'string') {
+        setGeminiResponse(response);
+      } else {
+        console.error("Unexpected response type:", response);
+        setGeminiResponse('Error: Invalid response from AI script.');
+      }
+    } catch (error) {
+      console.error("Error fetching resume:", error);
+      setGeminiResponse('Error: Failed to generate resume.');
     }
-  
+  }
 
   return (
-    <Container onSubmit={handleSubmit}>
-    <JobDescription>
-      <h3>Job Description & General Skills</h3>
-      <label htmlFor="jobDescription">Job Description</label>
-      <InputLg name='jobDescription' onChange={handleJobDescription} />
-    </JobDescription>
+    <div>
+    {!geminiResponse ?
+      <Container onSubmit={handleSubmit}>
+        <JobDescription>
+          <h3>Job Description & General Skills</h3>
+          <label htmlFor="jobDescription">Job Description</label>
+          <InputLg name='jobDescription' onChange={handleJobDescription} />
+        </JobDescription>
 
-    <GeneralSkills>
-      <label htmlFor="generalSkills">General Skills</label>
-      <Input type="text" name='generalSkills' value={generalSkill} onChange={handleGeneralSkill} />
-      <Button onClick={handleGeneralSkills}>add skill</Button>
+        <GeneralSkills>
+          <label htmlFor="generalSkills">General Skills</label>
+          <Input type="text" name='generalSkills' value={generalSkill} onChange={handleGeneralSkill} />
+          <Button onClick={handleGeneralSkills}>add skill</Button>
 
-      <Display style={{ flexDirection: 'row'}}>
-        {generalSkills.map((val, id) => {
-          return (
-            <DisplayItem key={id}>
-              {val}
-            </DisplayItem>
-          )
-        })}
-      </Display>
+          <Display style={{ flexDirection: 'row'}}>
+            {generalSkills.map((val, id) => {
+              return (
+                <DisplayItem key={id}>
+                  {val}
+                </DisplayItem>
+              )
+            })}
+          </Display>
 
-    </GeneralSkills>
+        </GeneralSkills>
 
-    <Section>
-      <h3>Projects</h3>
-      <ProjectItem>
-        <label htmlFor="projectName">Project Name</label>
-        <Input type="text" name='name' onChange={handleProject} />
-      </ProjectItem>
-      <ProjectItem>
-        <label htmlFor="projectTech">Project Tech</label>
-        <Input type="text" name='tech' onChange={handleProject} />
-      </ProjectItem>
-      <ProjectItem>
-        <label htmlFor="projectDescription">Project Description</label>
-        <InputLg name='description' onChange={handleProject} />
-      </ProjectItem>
+        <Section>
+          <h3>Projects</h3>
+          <ProjectItem>
+            <label htmlFor="projectName">Project Name</label>
+            <Input type="text" name='name' onChange={handleProject} />
+          </ProjectItem>
+          <ProjectItem>
+            <label htmlFor="projectTech">Project Tech</label>
+            <Input type="text" name='tech' onChange={handleProject} />
+          </ProjectItem>
+          <ProjectItem>
+            <label htmlFor="projectDescription">Project Description</label>
+            <InputLg name='description' onChange={handleProject} />
+          </ProjectItem>
 
-      <button onClick={handleProjectList}>Add Project +</button>
+          <button onClick={handleProjectList}>Add Project +</button>
 
-      <Display>
-        {projectList.length && projectList.map((project, id) => {
-          return (
-            <DisplayItem key={id}>
-              <h4>{project.name}</h4>
-              {/* @ts-ignore */}
-              {project.tech.length && project.tech.map((tech, id) => {
-                return (
-                  <span key={id}>{tech}</span>
-                )
-              })}
-              <p>{project.description}</p>
-            </DisplayItem>
-          )
-        })}
-      </Display>
-    </Section>
+          <Display>
+            {projectList.length && projectList.map((project, id) => {
+              return (
+                <DisplayItem key={id}>
+                  <h4>{project.name}</h4>
+                  {/* @ts-ignore */}
+                  {project.tech.length && project.tech.map((tech, id) => {
+                    return (
+                      <span key={id}>{tech}</span>
+                    )
+                  })}
+                  <p>{project.description}</p>
+                </DisplayItem>
+              )
+            })}
+          </Display>
+        </Section>
 
-    <Section>
-      <h3>Experience</h3>
-      <label htmlFor='company'>Company Name</label>
-      <Input type="text" name='company' value={experience.company} onChange={handleExperience}/>
+        <Section>
+          <h3>Experience</h3>
+          <label htmlFor='company'>Company Name</label>
+          <Input type="text" name='company' value={experience.company} onChange={handleExperience}/>
 
-      <label htmlFor='company'>Role</label>
-      <Input type="text" name='role' value={experience.role} onChange={handleExperience}/>
+          <label htmlFor='company'>Role</label>
+          <Input type="text" name='role' value={experience.role} onChange={handleExperience}/>
 
-      <label htmlFor='start'>Start Date</label>
-      <Input type="text" name='start' value={experience.dates.start} onChange={handleExperience}/>
-      <label htmlFor='end'>End Date</label>
-      <Input type="text" name='end' value={experience.dates.end} onChange={handleExperience}/>
-      <label htmlFor='responsibilities'>Breakdown of responsibilities</label>
-      <InputLg name='responsibilities' value={experience.responsibilities} onChange={handleExperience}/>
-      <label htmlFor='tech'>Tech used</label>
-      <Input type="text" name='tech' value={experience.tech} onChange={handleExperience}/>
+          <label htmlFor='start'>Start Date</label>
+          <Input type="text" name='start' value={experience.dates.start} onChange={handleExperience}/>
+          <label htmlFor='end'>End Date</label>
+          <Input type="text" name='end' value={experience.dates.end} onChange={handleExperience}/>
+          <label htmlFor='responsibilities'>Breakdown of responsibilities</label>
+          <InputLg name='responsibilities' value={experience.responsibilities} onChange={handleExperience}/>
+          <label htmlFor='tech'>Tech used</label>
+          <Input type="text" name='tech' value={experience.tech} onChange={handleExperience}/>
 
-      <button onClick={handleExperienceList}>Add Experience +</button>
+          <button onClick={handleExperienceList}>Add Experience +</button>
 
-      <Display>
-        {experienceList.map((exp, i) => {
-          return (
-            <DisplayItem key={i}>
-              <h4>{exp.company}</h4>
-              <p>{exp.role}</p>
-              <p>{exp.dates.start}</p>
-              <p>{exp.dates.end}</p>
-              <p>
-              {/* @ts-ignore */}
-                {exp.responsibilities.map( (point, i) => {
-                  return (
-                    <span key={i}>{point}</span>
-                  )
-                })}
-              </p>
-              <p>{exp.tech}</p>
-            </DisplayItem>
-          )
-        })}
-      </Display>
-    </Section>
-    <Button type="submit">Get Resume</Button>
-  </Container>
+          <Display>
+            {experienceList.map((exp, i) => {
+              return (
+                <DisplayItem key={i}>
+                  <h4>{exp.company}</h4>
+                  <p>{exp.role}</p>
+                  <p>{exp.dates.start}</p>
+                  <p>{exp.dates.end}</p>
+                  <p>
+                  {/* @ts-ignore */}
+                    {exp.responsibilities.map( (point, i) => {
+                      return (
+                        <span key={i}>{point}</span>
+                      )
+                    })}
+                  </p>
+                  <p>{exp.tech}</p>
+                </DisplayItem>
+              )
+            })}
+          </Display>
+        </Section>
+        <Button type="submit">Get Resume</Button>
+      </Container>
+      : <Resume markdownString={geminiResponse}/>}
+    </div>
     )
 };
 

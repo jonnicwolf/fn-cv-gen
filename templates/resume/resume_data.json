@@ -11,7 +11,7 @@
     {
       "name": "Tip Tally Pro",
       "tech": ["React", "Styled Components"],
-      "description": "Designed to streamline the management of tips and cash distribution for hospitality closing staff. This application provides a user-friendly interface for calculating and distrubting tips among employees, as well as managing cash registers. Built using React, React Router, and styled-components, the application ensures a seamless and responsive user experience."
+      "description": "Designed to streamline the management of tips and cash distribution for hospitality closing staff. This application provides a user-friendly interface for calculating and distributing tips among employees, as well as managing cash registers. Built using React, React Router, and styled-components, the application ensures a seamless and responsive user experience."
     },
     {
       "name": "Stoned Cold Dreamery",
